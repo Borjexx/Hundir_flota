@@ -21,12 +21,14 @@ public class Juego {
         }
         int[] coordenadasJ;
         int[] coordenadasPC= new int[2];
+        int intentos = 30;
         int puntuacionjugador = 0;
         int puntuacionPC = 0;
         String[][] tableroPCantiguo;
-        while(puntuacionjugador<10 && puntuacionPC<10){
+        while(puntuacionjugador<10 && puntuacionPC<10 && intentos>0){
             tableroPCantiguo = Pantalla.copiarTablero(tableroPC);
             coordenadasJ = Entrada.obtenerCoordenadas("Vas a disparar, introduce las coordenadas:");
+            intentos=intentos-1;
             if(Pantalla.disparosJugador(tableroPC,coordenadasJ)){
                 Pantalla.pintarT(tableroPC,coordenadasJ);
                 Pantalla.pintarT(tableroDisparosJugador,coordenadasJ);
@@ -49,6 +51,22 @@ public class Juego {
             Pantalla.mostrardisparo(tableroPCantiguo,coordenadasJ);
             System.out.println("Puntos del jugador: "+puntuacionjugador);
             System.out.println("Puntos del PC: "+puntuacionPC);
+            System.out.println("Intentos Restantes : "+intentos);
+
+        }
+        if(intentos==0){
+            System.out.println(colorize("Te has quedado sin intentos!!", Attribute.TEXT_COLOR(255,0,0)));
+            if(puntuacionjugador>puntuacionPC){
+                System.out.println(colorize("Como tienes más puntos, has ganado!!",
+                        Attribute.TEXT_COLOR(0,255,0)));
+
+            }else if(puntuacionPC>puntuacionjugador){
+                System.out.println(colorize("Como tienes menos puntos, has perdido!!",
+                        Attribute.TEXT_COLOR(255,0,0)));
+            }else{
+                System.out.println(colorize("Habeis empatado!!", Attribute.TEXT_COLOR(255,255,255)));
+
+            }
         }
         if(puntuacionjugador==10){
             System.out.println(colorize("Has ganado!!", Attribute.TEXT_COLOR(0,255,0)));
